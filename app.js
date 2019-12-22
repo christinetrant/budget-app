@@ -41,10 +41,23 @@ let UIController = (function() {
 // App Controller Module - IIFE
 // Call 2 parameters in the function for the above 2 functions
 let controller = (function(budgetCtrl, UICtrl) {
-	//we need to access DOMstrings from UI Controller
-	const DOM = UICtrl.getDomstrings();
+	// Setting up event listeners within a function to keep it clean
+	let setupEventListeners = function() {
+		//we need to access DOMstrings from UI Controller
+		let DOM = UICtrl.getDomstrings();
+		// set up event listeners for add button or when enter is pressed.
+		document.querySelector(DOM.inputBtn).addEventListener('click', controlAddItem);
+		document.addEventListener('keypress', function(event) {
+			// Number 13 is the "Enter" key on the keyboard
+			if (event.keyCode === 13 || event.which === 13) {
+				controlAddItem();
+			}
+		});
+	};
+	
 
-	const controlAddItem = function() {
+
+	let controlAddItem = function() {
 		// To do list when item is added:
 
 		// 1. Get the field input data
@@ -60,16 +73,16 @@ let controller = (function(budgetCtrl, UICtrl) {
 		// 5. Display the budget on the UI
 
 		console.log('It works!');
-	}
-	
-	// set up event listeners for add button or when enter is pressed.
-	document.querySelector(DOM.inputBtn).addEventListener('click', controlAddItem);
-	document.addEventListener('keypress', function(event) {
-		// Number 13 is the "Enter" key on the keyboard
-		if (event.keyCode === 13 || event.which === 13) {
-			controlAddItem();
-		}
+	};
 
-	});
+	return {
+		init: function() {
+			console.log('init function has started');
+			setupEventListeners();
+		}
+	};
 
 })(budgetController, UIController);
+
+// runs initialise function
+controller.init();
