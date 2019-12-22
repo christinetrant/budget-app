@@ -1,7 +1,34 @@
 // Budget Controller Module - IIFE 
 let budgetController = (function() {
 
-	// some code
+	// function constructord for expenses and income
+	let Expense = function(id, description, value) {
+		this.id = id;
+		this.description = description;
+		this.value = value;
+	}
+
+	let Income = function(id, description, value) {
+		this.id = id;
+		this.description = description;
+		this.value = value;
+	}
+
+
+	// let allExpenses = [];
+	// let allIncomes = [];
+	// let totalIncome = 0;
+	// let totalExpenses = 0;
+	let data = {
+		allItems: {
+			exp: [],
+			inc: [],
+		},
+		totals: {
+			exp: 0,
+			inc: 0,			
+		},
+	}
 
 })();
 
@@ -76,6 +103,7 @@ let controller = (function(budgetCtrl, UICtrl) {
 	};
 
 	return {
+		// initialisation
 		init: function() {
 			console.log('init function has started');
 			setupEventListeners();
