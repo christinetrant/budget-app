@@ -1,7 +1,7 @@
 // Budget Controller Module - IIFE 
 let budgetController = (function() {
 
-	// function constructord for expenses and income
+	// function constructor for expenses and income
 	let Expense = function(id, description, value) {
 		this.id = id;
 		this.description = description;
@@ -14,11 +14,11 @@ let budgetController = (function() {
 		this.value = value;
 	}
 
-
 	// let allExpenses = [];
 	// let allIncomes = [];
 	// let totalIncome = 0;
 	// let totalExpenses = 0;
+
 	let data = {
 		allItems: {
 			exp: [],
@@ -28,6 +28,34 @@ let budgetController = (function() {
 			exp: 0,
 			inc: 0,			
 		},
+	}
+
+	return {
+		addItem: function(type, des, val) {
+			let newItem, ID;
+			// unique number that we want to assign to each new item
+			// we want the id to be equal to last id + 1 as we will delete items
+			//e.g [1,2,4,5] next item id needs to be 6 not 3
+			// ID = last id + 1;
+			// create new ID
+			// select the last element][last id in array + 1 as it is going in the same array
+			if(data.allItems[type].length > 0) {
+				ID = data.allItems[type][data.allItems[type].length - 1].id + 1;
+			} else {
+				ID = 0;
+			}
+			// Create new item based on type (inc or exp)
+			if(type === 'exp') {
+				newItem = new Expense(ID, des, val);
+			} else if(type === 'inc') {
+				newItem = new Income(ID, des, val);
+			}
+			// we can push our newItem income or expense into our array into our data structure
+			data.allItems[type].push(newItem);
+			//return the new element
+			return newItem;
+		},
+
 	}
 
 })();
@@ -86,13 +114,14 @@ let controller = (function(budgetCtrl, UICtrl) {
 
 	let controlAddItem = function() {
 		// To do list when item is added:
+		let input, newItem;
 
 		// 1. Get the field input data
-		let input = UICtrl.getInput();
+		input = UICtrl.getInput();
 		console.log(input);
 
 		// 2. Add the item to the budget controller
-		
+		newItem = budgetCtrl.addItem(input.type, input.description, input.value);
 		// 3. Add the new item to the User Interface
 		
 		// 4. Calculate the budget
