@@ -110,8 +110,12 @@ let UIController = (function() {
 		clearFields: function() {
 			let fields, fieldsArr;
 		
+			// we want to clear both input fields - Description & Value
 			fields = document.querySelectorAll(DOMstrings.inputDescription + ',' + DOMstrings.inputValue);
+			// we want to use the forEach loop but it only works on arrays so we use the Array.prototype to 'trick' fields to be viewed as an array - https://medium.com/@andrewsburke/array-prototype-slice-call-arguments-a94b04e74a4
 			fieldsArr = Array.prototype.slice.call(fields);
+			// We call on our new fieldsArray to clear the fields
+			// https://www.w3schools.com/jsref/jsref_foreach.asp
 			fieldsArr.forEach(function(current, index, array) {
 				current.value = "";
 			});
