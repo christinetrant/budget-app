@@ -79,7 +79,8 @@ let UIController = (function() {
 			return {
 				type: document.querySelector(DOMstrings.inputType).value, //Will be either inc or exp as it is a select dropdown
 				description: document.querySelector(DOMstrings.inputDescription).value,
-				value: document.querySelector(DOMstrings.inputValue).value,
+				// We want the value inputted to be saved as a number in the object so use parseFloat
+				value: parseFloat(document.querySelector(DOMstrings.inputValue).value),
 			}
 		},
 		addListItem: function(obj, type) {
@@ -144,37 +145,45 @@ let controller = (function(budgetCtrl, UICtrl) {
 		//we need to access DOMstrings from UI Controller
 		let DOM = UICtrl.getDomstrings();
 		// set up event listeners for add button or when enter is pressed.
-		document.querySelector(DOM.inputBtn).addEventListener('click', controlAddItem);
+		document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
 		document.addEventListener('keypress', function(event) {
 			// Number 13 is the "Enter" key on the keyboard
 			if (event.keyCode === 13 || event.which === 13) {
-				controlAddItem();
+				ctrlAddItem();
 			}
 		});
 	};
 	
+	let updateBudget = function() {
+		// 1. Calculate the budget
+		
+		// 2. Return the budget
 
+		// 3. Display the budget on the UI
 
-	let controlAddItem = function() {
+	};
+
+	let ctrlAddItem = function() {
 		// To do list when item is added:
 		let input, newItem;
 
 		// 1. Get the field input data
 		input = UICtrl.getInput();
 
-		// 2. Add the item to the budget controller
-		newItem = budgetCtrl.addItem(input.type, input.description, input.value);
+		// To prevent empty lines being added we need to make sure there is data inputted!
+		if(input.description !== "" && !isNaN(input.value) && input.value > 0) {
+			// 2. Add the item to the budget controller
+			newItem = budgetCtrl.addItem(input.type, input.description, input.value);
 
-		// 3. Add the new item to the User Interface
-		UICtrl.addListItem(newItem, input.type);
+			// 3. Add the new item to the User Interface
+			UICtrl.addListItem(newItem, input.type);
 
-		// 4. Clear the fields
-		UICtrl.clearFields();
+			// 4. Clear the fields
+			UICtrl.clearFields();
 
-		// 5. Calculate the budget
-		
-		// 6. Display the budget on the UI
-
+			//5. Calculate & update budget
+			updateBudget();
+		}
 	};
 
 	return {
