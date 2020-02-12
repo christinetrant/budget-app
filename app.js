@@ -6,22 +6,23 @@ let budgetController = (function() {
 		this.id = id;
 		this.description = description;
 		this.value = value;
-	}
+	};
 
 	let Income = function(id, description, value) {
 		this.id = id;
 		this.description = description;
 		this.value = value;
-	}
+	};
 
-	// all items below will either be of type inc or exp
+	// the data in allItems below will either be of type inc or exp
 	let calculateTotal = function(type) {
 		var sum = 0;
+		// for each current element we want to add to total
 		data.allItems[type].forEach(function(current) {
 			sum += current.value;
 		});
 		data.totals[type] = sum;
-	}
+	};
 
 	// let allExpenses = [];
 	// let allIncomes = [];
@@ -37,7 +38,9 @@ let budgetController = (function() {
 			exp: 0,
 			inc: 0,			
 		},
-	}
+		budget: 0,
+		percentage: -1
+	};
 
 	return {
 		addItem: function(type, des, val) {
@@ -75,11 +78,11 @@ let budgetController = (function() {
 
 			//Calculate the percentage of income that we spent
 			if(data.totals.inc > 0) {
-				data.percentage = Math.round((data.totals.exp / data.totals.inc)*100)
+				// round to nearest integer
+				data.percentage = Math.round((data.totals.exp / data.totals.inc)*100);
 			} else {
-				// percentage = -1 to show it is non-existent
+				// we only want a percentage if totals includes an income
 				data.percentage = -1; 
-				data.budget = 0;
 			}
 		},
 
@@ -91,6 +94,10 @@ let budgetController = (function() {
 				percentage: data.percentage,
 			}
 		},
+
+		testing: function() {
+    	console.log(data);
+    }
 	}
 
 })();
