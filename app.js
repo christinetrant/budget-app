@@ -114,9 +114,9 @@ let UIController = (function() {
 		incomeContainer: '.income__list',
 		expensesContainer: '.expenses__list',
 		budgetLabel: '.budget__value',
-		incomeLabel: '.budget--income--value',
-		expensesLabel: '.budget--expenses--value',
-		percentageLabel: '.budget--expenses--percentage',
+		incomeLabel: '.budget__income--value',
+		expensesLabel: '.budget__expenses--value',
+		percentageLabel: '.budget__expenses--percentage',
 	}
 	// Public method so needs to be returned in object
 	return {
@@ -177,7 +177,7 @@ let UIController = (function() {
 			document.querySelector(DOMstrings.expensesLabel).textContent = obj.totalExp;
 			document.querySelector(DOMstrings.percentageLabel).textContent = obj.percentage;
 
-			if(percentage > 0) {
+			if(obj.percentage > 0) {
 				document.querySelector(DOMstrings.percentageLabel).textContent = obj.percentage + "%";
 			} else {
 				document.querySelector(DOMstrings.percentageLabel).textContent = "---";
@@ -253,7 +253,8 @@ let controller = (function(budgetCtrl, UICtrl) {
 				totalInc: 0,
 				totalExp: 0,
 				percentage: -1,
-			)}
+			});
+
 			setupEventListeners();
 		}
 	};
