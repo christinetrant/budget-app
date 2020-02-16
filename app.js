@@ -135,11 +135,11 @@ let UIController = (function() {
 			if(type === 'inc') {
 				element = DOMstrings.incomeContainer;
 
-				html = '<div class="item clearfix" id="income-%id%"> <div class="item__description">%description%</div> <div class="right clearfix"> <div class="item__value">%value%</div> <div class="item__delete"> <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div> </div> </div>';
+				html = '<div class="item clearfix" id="inc-%id%"> <div class="item__description">%description%</div> <div class="right clearfix"> <div class="item__value">%value%</div> <div class="item__delete"> <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div> </div> </div>';
 			} else if(type === 'exp') {
 				element = DOMstrings.expensesContainer;
 				
-				html = '<div class="item clearfix" id="expense-%id%"> <div class="item__description">%description%</div> <div class="right clearfix"> <div class="item__value">%value%</div> <div class="item__percentage">21%</div> <div class="item__delete"> <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div> </div> </div>';
+				html = '<div class="item clearfix" id="exp-%id%"> <div class="item__description">%description%</div> <div class="right clearfix"> <div class="item__value">%value%</div> <div class="item__percentage">21%</div> <div class="item__delete"> <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button> </div> </div> </div>';
 			}
 
 			// Replace the placeholder text with actual data
@@ -247,7 +247,23 @@ let controller = (function(budgetCtrl, UICtrl) {
 	};
 
 	let ctrlDeleteItem = function(event) {
-		console.log(event.target);
+		//console.log(event.target);
+		let itemID, splitID, type, ID;
+		// When we click on the event we click on <i> icon (the litte x) - We want each unique id name e.g inc-0 / inc-1 / exp-0 / exp-1 so we want the parent div x4:
+		itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
+
+		// Split the id string at the hyphen so that we can get the type inc or exp and save it as an array.  We then get type in the first index of array and the id in the second index of array.
+		if(itemID){
+			splitID = itemID.split("-");
+			type = splitID[0];
+			id = splitID[1];
+
+			// 1. Delete the item from the data structure
+
+			// 2. Delete the item from the UI
+
+			// 3. Update & Show the new budget
+		}
 	};
 
 	return {
