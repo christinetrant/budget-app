@@ -103,8 +103,6 @@ let budgetController = (function() {
 })();
 
 
-
-
 // UI Controller Module - IIFE
 let UIController = (function() {
 	//private variable
@@ -115,6 +113,10 @@ let UIController = (function() {
 		inputBtn: '.add__btn',
 		incomeContainer: '.income__list',
 		expensesContainer: '.expenses__list',
+		budgetLabel: '.budget__value',
+		incomeLabel: '.budget--income--value',
+		expensesLabel: '.budget--expenses--value',
+		percentageLabel: '.budget--expenses--percentage',
 	}
 	// Public method so needs to be returned in object
 	return {
@@ -168,16 +170,27 @@ let UIController = (function() {
 			fieldsArr[0].focus();
 		},
 
+		// Display budget function
+		displayBudget: function(obj) {
+			document.querySelector(DOMstrings.budgetLabel).textContent = obj.budget;
+			document.querySelector(DOMstrings.incomeLabel).textContent = obj.totalInc;
+			document.querySelector(DOMstrings.expensesLabel).textContent = obj.totalExp;
+			document.querySelector(DOMstrings.percentageLabel).textContent = obj.percentage;
+
+			if(percentage > 0) {
+				document.querySelector(DOMstrings.percentageLabel).textContent = obj.percentage + "%";
+			} else {
+				document.querySelector(DOMstrings.percentageLabel).textContent = "---";
+			}
+		},
+
 		// returns DOMstrings so they can be accessed publicly
 		getDomstrings: function() {
 			return DOMstrings;
 		},
 	}
 
-
 })();
-
-
 
 
 // App Controller Module - IIFE
@@ -203,7 +216,8 @@ let controller = (function(budgetCtrl, UICtrl) {
 		// 2. Return the budget
 		let budget = budgetCtrl.getBudget();
 		// 3. Display the budget on the UI
-		console.log(budget);
+		UICtrl.displayBudget(budget);
+		//console.log(budget);
 	};
 
 	let ctrlAddItem = function() {
@@ -233,6 +247,13 @@ let controller = (function(budgetCtrl, UICtrl) {
 		// initialisation
 		init: function() {
 			console.log('init function has started');
+			//Everything on UI should be zero when init function runs
+			UICtrl.displayBudget({
+				budget: 0,
+				totalInc: 0,
+				totalExp: 0,
+				percentage: -1,
+			)}
 			setupEventListeners();
 		}
 	};
