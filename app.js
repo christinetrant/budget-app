@@ -68,6 +68,29 @@ let budgetController = (function() {
 			return newItem;
 		},
 
+		deleteItem: function(type, id){
+			//id = 6
+			//ids = [1, 2, 4, 6, 8];
+			//data.allItems[type][id] won't work as id=6 but the index is 3 in the array
+
+			let ids, index;
+
+			// using the map function returns a brand new array so using the above example will return [1, 2, 4, 6, 8]
+			ids = data.allItems[type].map(function(current) {
+				return current.id;
+			});
+			//then using indexOf current id - index is the arrays ids returning the index of the ide we passed into the method.  We create an array with all id numbers that we have and then find out what the index is of the item we want to remove:
+			index = ids.indexOf(id);
+
+			//index begins at zero and can't be a negative number:
+			if(index !== -1) {
+				//use splice to remove element - index parameter is when we want to start removing & 1 is how many items to remove:
+				data.allItems[type].splice(index, 1);
+			}
+
+			// So in the commented example - 6 has been returned with an index of 3 -> index = ids.indexOF(id) as it was the current id.  This then splices at index 3 and removes 1 item so 6 is removed from the array.
+		},
+
 		//Calculate total income & expenses
 		calculateBudget: function() {
 			calculateTotal('exp');
@@ -97,7 +120,7 @@ let budgetController = (function() {
 
 		testing: function() {
     	console.log(data);
-    }
+    },
 	}
 
 })();
@@ -256,10 +279,11 @@ let controller = (function(budgetCtrl, UICtrl) {
 		if(itemID){
 			splitID = itemID.split("-");
 			type = splitID[0];
-			id = splitID[1];
+			id = parseInt(splitID[1]); //parse as an integer as it will be a whole number only
 
 			// 1. Delete the item from the data structure
-
+			budgetCtrl.deleteItem(type, id) // as we specified in deleteItem function
+			
 			// 2. Delete the item from the UI
 
 			// 3. Update & Show the new budget
