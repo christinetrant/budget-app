@@ -117,6 +117,7 @@ let UIController = (function() {
 		incomeLabel: '.budget__income--value',
 		expensesLabel: '.budget__expenses--value',
 		percentageLabel: '.budget__expenses--percentage',
+		container: '.container',
 	}
 	// Public method so needs to be returned in object
 	return {
@@ -202,6 +203,8 @@ let controller = (function(budgetCtrl, UICtrl) {
 		let DOM = UICtrl.getDomstrings();
 		// set up event listeners for add button or when enter is pressed.
 		document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
+		// find a common parent for income & expenses so when delete button is clicked we can delete item:
+		document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
 		document.addEventListener('keypress', function(event) {
 			// Number 13 is the "Enter" key on the keyboard
 			if (event.keyCode === 13 || event.which === 13) {
@@ -241,6 +244,10 @@ let controller = (function(budgetCtrl, UICtrl) {
 			//5. Calculate & update budget
 			updateBudget();
 		}
+	};
+
+	let ctrlDeleteItem = function(event) {
+		console.log(event.target);
 	};
 
 	return {
